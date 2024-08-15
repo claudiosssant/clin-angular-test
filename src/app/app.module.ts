@@ -33,7 +33,6 @@ import { InfoClincPipe } from './pipes/info-clinc.pipe';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-
     NgxMaskModule.forRoot(),
 
     CardsModule,

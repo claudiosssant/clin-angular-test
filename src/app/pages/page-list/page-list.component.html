@@ -1,24 +1,22 @@
 <div class="container mt-4">
 
     <div class="container text-center mb-3">
-        <button (click)="redirectNewClinc()" class="btn btn-primary mt-3 col-md-4">Criar nova clínica</button>
+        <button (click)="createClincPage()" class="btn btn-primary mt-3 col-md-4">Criar nova clínica</button>
     </div>
-
     <div class="row" style="justify-content: center;">
-
         <default-card
             *ngFor="let clinc of clinics"
             class="m-2"
             [title]="clinc.name" 
-            subtitle="Responsavel: {{clinc.ownerName}}"
+            subtitle="Responsável: {{clinc.ownerName}}"
             [info]="clinc | clincInfo"
     
             leftButtonLabel="Remover"
             (onClickLeftButton)="delete(clinc?.id)"
 
             rightButtonLabel="Editar clínica"
-            (onClickRightButton)="edit(clinc?.id)"
+            (onClickRightButton)="editPage(clinc?.id)"
         ></default-card>
-
     </div>
+
 </div>

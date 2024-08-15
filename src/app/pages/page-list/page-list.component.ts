@@ -1,90 +1,85 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ClincDTO } from 'src/app/dtos/clinc.dto';
 import { RoutesEnum } from 'src/app/enums/routes.enum';
 import { ClincService } from 'src/app/services/clinc.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-page-list',
   templateUrl: './page-list.component.html',
-  styleUrls: ['./page-list.component.scss']
+  styleUrls: ['./page-list.component.scss'],
 })
 export class PageListComponent implements OnInit {
 
-  clinics: ClincDTO[] = [
-    {
-      id: 2,
-      name: 'Clinca exemplo A',
-      phone: '81994381298',
-      ownerName: 'Avelino Alonso',
-      cep: '52020213',
-      uf: 'PE',
-      city: 'Recife',
-
-      neighborhood: 'Espinheiro',
-      street: 'Rua do Espinheiro',
-      number: '190',
-      complement: 'Ao lado esquerdo, placa da Clin'
-    },
-    {
-      id: 3,
-      name: 'Clinca exemplo B',
-      phone: '819948301',
-      ownerName: 'Pedro Henrique',
-      cep: '52020213',
-      uf: 'PE',
-      city: 'Recife',
-
-      neighborhood: 'Espinheiro',
-      street: 'Rua do Espinheiro',
-      number: '160',
-      complement: 'Ao lado esquerdo, placa da Clin'
-    },
-    {
-      id: 4,
-      name: 'Clinca exemplo C',
-      phone: '819948301',
-      ownerName: 'Antonio',
-      cep: '52020200',
-      uf: 'PE',
-      city: 'Recife',
-
-      neighborhood: 'Espinheiro',
-      street: 'Rua do Espinheiro',
-      number: '160',
-      complement: 'Ao lado esquerdo, placa da Clin'
-    }
-  ]
+  clinics: ClincDTO[] = [];
+  clinicForm: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private clincService: ClincService,
     private toastService: ToastService,
-    private route: Router,
-  ){}
-
-  ngOnInit(): void {
-    this.clincService.getAllClincs().subscribe({
-      next: (value: any[]) => {
-        console.log(value);
-      },
-      error: (err: any) => {
-        this.toastService.showError(`Erro ao resgatar listagem de clínicas`);
-      }
+    private router: Router
+  ) {
+    this.clinicForm = this.fb.group({
+      name: ['', Validators.required],
+      phone: ['', Validators.required],
+      ownerName: ['', Validators.required],
+      cep: ['', Validators.required],
+      uf: [
+        '',
+        [Validators.required, Validators.minLength(2), Validators.maxLength(2)],
+      ],
+      city: ['', Validators.required],
+      neighborhood: ['', Validators.required],
+      street: ['', Validators.required],
+      number: ['', Validators.required],
+      complement: [''],
     });
   }
 
-  redirectNewClinc(){
-    this.route.navigate([RoutesEnum.SESSION_NEW_CLINC]);
+  ngOnInit(): void {
+    this.loadClinics();
   }
 
-  edit(clincId: any){
-    console.log(`Id da clínica: ${clincId}`);
-    this.route.navigate([`${RoutesEnum.SESSION_CLINC_INFO}/${clincId}`])
+  private loadClinics(): void {
+    this.clincService.getAllClincs().subscribe({
+      next: (clinics: ClincDTO[]) => {
+        this.clinics = clinics;
+      },
+      error: (err: any) => {
+        console.error('Erro ao buscar dados:', err);
+        this.toastService.showError('Erro ao resgatar listagem de clínicas');
+      },
+    });
   }
 
-  delete(clincId: any){
-    console.log(`Id da clínica: ${clincId} para deletar`);
+  createClincPage(): void {
+    this.router.navigate([RoutesEnum.SESSION_NEW_CLINC]);
+    if (this.clinicForm.invalid) {
+      this.toastService.showError('Preencha todos os campos obrigatórios.');
+      return;
+    }
   }
 
+  editPage(clincId: any): void {
+    
+    this.router.navigate([`${RoutesEnum.SESSION_CLINC_INFO}/${clincId}`]);
+  }
+
+  delete(clincId: any): void {
+
+    this.clincService.deleteClinc(clincId).subscribe({
+      next: () => {
+        this.toastService.showSuccess('Clínica deletada com sucesso!');
+        this.loadClinics();
+      },
+      error: (err: any) => {
+        console.error('Erro ao deletar clínica:', err);
+        this.toastService.showError('Erro ao deletar clínica');
+      },
+    });
+  }
 }

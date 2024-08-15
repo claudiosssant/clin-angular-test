@@ -24,14 +24,12 @@ export class PageHomeComponent {
   });
 
   login() {
-
     const { identifier: cpf, password } = this.form.value;
-
+  
     this.authService.login(cpf, password)
     .subscribe({
       next: (value: any) => {
-        console.log(value);
-
+        this.authService.setToken(value.accessToken);
         this.route.navigate([RoutesEnum.SESSION_LIST]);
       },
       error: (err: any) => {

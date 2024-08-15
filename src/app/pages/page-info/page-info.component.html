@@ -1,69 +1,126 @@
 <form [formGroup]="form" (ngSubmit)="formSubmit()" class="m-5 mb-12">
-    
-    <div class="row">
+  <div class="row">
+    <h5 class="divider pb-2">Informações gerais</h5>
 
-        <h5 class="divider pb-2">Informações gerais</h5>
+    <div class="form-group col-md-12">
+      <label for="name">Nome da clínica *</label>
+      <input
+        type="text"
+        formControlName="name"
+        class="form-control"
+        id="name"
+        [placeholder]="clinicId ? form.get('name')?.value : 'Nome da clínica'"
+      />
+    </div>
 
-        <div class="form-group col-md-12">
-            <label for="name">Nome da clínica *</label>
-            <input type="text" formControlName="name" class="form-control" id="name" placeholder="Nome da clínica">
-        </div>
-        
-        <div class="form-group col-md-12">
-            <label for="ownerName">Nome do responsável *</label>
-            <input type="text" formControlName="ownerName" class="form-control" id="ownerName" placeholder="Nome do responsável">
-        </div>
+    <div class="form-group col-md-12">
+      <label for="ownerName">Nome do responsável *</label>
+      <input
+        type="text"
+        formControlName="ownerName"
+        class="form-control"
+        id="ownerName"
+        [placeholder]="
+          clinicId ? form.get('ownerName')?.value : 'Nome do responsável'
+        "
+      />
+    </div>
 
-        <div class="form-group col-md-12">
-            <label for="inputPhone">Telefone *</label>
-            <input type="text" formControlName="phone" mask="(00) 0000-0000||(00) 0 0000-0000" class="form-control" id="inputPhone" placeholder="(XX) X XXXX-XXXX">
-        </div>
-
+    <div class="form-group col-md-12">
+      <label for="phone">Telefone *</label>
+      <input
+        type="text"
+        formControlName="phone"
+        mask="(00) 0000-0000||(00) 0 0000-0000"
+        class="form-control"
+        id="phone"
+        [placeholder]="clinicId ? form.get('phone')?.value : '(XX) X XXXX-XXXX'"
+      />
     </div>
 
     <div class="row mt-4">
+      <h5 class="divider pb-2">Endereço</h5>
 
-        <h5 class="divider pb-2">Endereço</h5>
+      <div class="form-group col-md-4">
+        <label for="cep">CEP</label>
+        <input
+          type="text"
+          formControlName="cep"
+          class="form-control"
+          id="cep"
+          placeholder="XXXXX-XXX"
+        />
+      </div>
 
-        <div class="form-group col-md-4">
-            <label for="inputCep">CEP</label>
-            <input type="text" class="form-control" id="inputCep" placeholder="XXXXX-XXX">
-        </div>
-    
-        <div class="form-group col-md-2">
-            <label for="inputUF">UF</label>
-            <input type="text" class="form-control" id="inputUF" placeholder="UF">
-        </div>
-    
-        <div class="form-group col-md-6">
-            <label for="inputCity">Cidade</label>
-            <input type="text" class="form-control" id="inputCity" placeholder="Cidade">
-        </div>
-    
-        <div class="form-group col-md-12">
-            <label for="inputNeighborhood">Bairro</label>
-            <input type="text" class="form-control" id="inputNeighborhood" placeholder="Bairro da cidade">
-        </div>
-    
-        <div class="form-group col-md-12">
-            <label for="inputStreet">Logradouro</label>
-            <input type="text" class="form-control" id="inputStreet" placeholder="Rua, Av. da cidade">
-        </div>
-    
-        <div class="form-group col-md-4">
-            <label for="inputNumber">Número</label>
-            <input type="text" class="form-control" id="inputNumber" placeholder="Número do endereço">
-        </div>
-    
-        <div class="form-group col-md-8">
-            <label for="inputComplement">Complemento</label>
-            <input type="text" class="form-control" id="inputComplement" placeholder="Ex: Bloco C">
-        </div>
+      <div class="form-group col-md-2">
+        <label for="uf">UF</label>
+        <input
+          type="text"
+          formControlName="uf"
+          class="form-control"
+          id="uf"
+          placeholder="UF"
+        />
+      </div>
 
+      <div class="form-group col-md-6">
+        <label for="city">Cidade</label>
+        <input
+          type="text"
+          formControlName="city"
+          class="form-control"
+          id="city"
+          placeholder="Cidade"
+        />
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="neighborhood">Bairro</label>
+        <input
+          type="text"
+          formControlName="neighborhood"
+          class="form-control"
+          id="neighborhood"
+          placeholder="Bairro da cidade"
+        />
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="street">Logradouro</label>
+        <input
+          type="text"
+          formControlName="street"
+          class="form-control"
+          id="street"
+          placeholder="Rua, Av. da cidade"
+        />
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="number">Número</label>
+        <input
+          type="text"
+          formControlName="number"
+          class="form-control"
+          id="number"
+          placeholder="Número do endereço"
+        />
+      </div>
+
+      <div class="form-group col-md-8">
+        <label for="complement">Complemento</label>
+        <input
+          type="text"
+          formControlName="complement"
+          class="form-control"
+          id="complement"
+          placeholder="Ex: Bloco C"
+        />
+      </div>
     </div>
-    
+
     <div class="form-row mt-4">
-        <button type="submit" class="btn btn-primary">{{ buttonLabel }}</button>
+      <button type="submit" class="btn btn-primary">{{ buttonLabel }}</button>
     </div>
-
+  </div>
 </form>
